@@ -4,5 +4,8 @@
         "user": "root",
         "pwd": "root",
         "host": "localhost"
+    },
+    "api" : {
+        "port": 3000
     }
 }
