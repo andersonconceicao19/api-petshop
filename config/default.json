@@ -1,0 +1,8 @@
+{
+    "mySql" : {
+        "database": "petshop",
+        "user": "root",
+        "pwd": "root",
+        "host": "localhost"
+    }
+}
