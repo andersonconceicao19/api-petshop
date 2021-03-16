@@ -1,5 +1,6 @@
 const _context = require('./fornecedor-model')
 const router = require('express').Router();
+const NotSupported = require('../../errors/notSupported')
 
 router.get('/', async (request, response) => {
     const result = await _context.findAll()
@@ -15,7 +16,7 @@ router.get('/:id', async (request, response) => {
             id: id
         }
     })
-    if(!query) {
+    if (!query) {
         return response.status(404).json({
             message: 'fornecedor não encontrado!'
         })
@@ -23,12 +24,17 @@ router.get('/:id', async (request, response) => {
     return response.status(200).json(query)
 })
 
-router.post('/', async (request, response) => {    
-    const fornecedor = request.body;
-    await _context.create(fornecedor);
-    return response.status(201).json({
-        message: 'criado com sucesso'
-    })
+router.post('/', async (request, response, next) => {
+    try {
+        const fornecedor = request.body;
+        await _context.create(fornecedor);
+        return response.status(201).json({
+            message: 'criado com sucesso'
+        })
+
+    } catch (error) {
+        next(error)
+    }
 })
 
 router.put('/:id', async (request, response) => {
@@ -41,20 +47,20 @@ router.put('/:id', async (request, response) => {
     }
 
     const uptaded = await _context.update(
-        data, 
+        data,
         {
-            where:{
+            where: {
                 id: id
             }
         }
     )
     return response.status(204).json(uptaded)
-    
+
 })
 
 router.delete('/:id', async (request, response) => {
     const id = request.params.id
-     await _context.destroy({
+    await _context.destroy({
         where: {
             id: id
         }
