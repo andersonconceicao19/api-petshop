@@ -52,4 +52,16 @@ router.put('/:id', async (request, response) => {
     
 })
 
+router.delete('/:id', async (request, response) => {
+    const id = request.params.id
+
+     await _context.destroy({
+        where: {
+            id: id
+        }
+    })
+    return response.status(200).json({
+        message: 'removido!'
+    })
+})
 module.exports = router;
