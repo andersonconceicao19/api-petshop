@@ -1,6 +1,21 @@
+const NotFound = require('../../errors/NotFound');
 const _context = require('./fornecedor-model')
 const router = require('express').Router();
-const NotSupported = require('../../errors/notSupported')
+class Repository {
+    async getById(id) {
+        const query = await _context.findOne({
+            where: {
+                id: id
+            }
+        })
+        if(query == null){
+            console.log(query)
+            throw new NotFound()
+        }
+        return query;
+    }
+}
+const repository = new Repository()
 
 router.get('/', async (request, response) => {
     const result = await _context.findAll()
@@ -8,20 +23,14 @@ router.get('/', async (request, response) => {
         data: result
     });
 })
-router.get('/:id', async (request, response) => {
+router.get('/:id', async (request, response, next) => {
     const id = request.params.id
-
-    const query = await _context.findOne({
-        where: {
-            id: id
-        }
-    })
-    if (!query) {
-        return response.status(404).json({
-            message: 'fornecedor não encontrado!'
-        })
+    try {
+        const forn = await repository.getById(id);
+        return response.status(200).json(forn)
+    } catch (error) {
+        next(error)
     }
-    return response.status(200).json(query)
 })
 
 router.post('/', async (request, response, next) => {
@@ -33,6 +42,7 @@ router.post('/', async (request, response, next) => {
         })
 
     } catch (error) {
+        console.log(error)
         next(error)
     }
 })
@@ -68,5 +78,6 @@ router.delete('/:id', async (request, response) => {
     return response.status(204).json({
         message: 'removido!'
     })
-})
+});
+
 module.exports = router;
