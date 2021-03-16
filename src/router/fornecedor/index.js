@@ -48,19 +48,18 @@ router.put('/:id', async (request, response) => {
             }
         }
     )
-    return response.status(200).json(uptaded)
+    return response.status(204).json(uptaded)
     
 })
 
 router.delete('/:id', async (request, response) => {
     const id = request.params.id
-
      await _context.destroy({
         where: {
             id: id
         }
     })
-    return response.status(200).json({
+    return response.status(204).json({
         message: 'removido!'
     })
 })
