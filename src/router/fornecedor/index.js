@@ -29,7 +29,27 @@ router.post('/', async (request, response) => {
     return response.status(201).json({
         message: 'criado com sucesso'
     })
+})
 
+router.put('/:id', async (request, response) => {
+    const id = request.params.id
+    const body = request.body
+    const data = {
+        nome: body.nome,
+        email: body.email,
+        categoria: body.categoria
+    }
+
+    const uptaded = await _context.update(
+        data, 
+        {
+            where:{
+                id: id
+            }
+        }
+    )
+    return response.status(200).json(uptaded)
+    
 })
 
 module.exports = router;
