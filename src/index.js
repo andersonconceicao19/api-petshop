@@ -7,6 +7,16 @@ const NotFound = require('./errors/NotFound');
 const app = express();
 app.use(bodyParser.json());
 
+//Configurando o CORS
+app.use((request, response, next) => {
+    response.set('Access-Control-Allow-Origin', '*')
+    /**
+     * Onde tem o * fica o do dominio do site que deseja permitir.
+     * No caso acima, consta que permite qualquer dominio
+     */
+    next();
+})
+
 const fornecedorRouter = require('./router/fornecedor');
 app.use('/api/fornecedor', fornecedorRouter);
 
