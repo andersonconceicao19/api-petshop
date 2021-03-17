@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 const fornecedorRouter = require('./router/fornecedor');
 app.use('/api/fornecedor', fornecedorRouter);
 
+const produtosRouter = require('./router/produto');
+app.use('/api/produto', produtosRouter);
+
 app.use((error, request, response, next) => {
     let status = 200
     if (error instanceof NotSupported) {
