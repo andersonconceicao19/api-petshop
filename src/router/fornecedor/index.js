@@ -38,7 +38,9 @@ const repository = new Repository()
 
 // PERMITINDO QUE SEJÁ ACESSADO OS MÉTODOS ABAIXO
 router.options('/', (request, response) => {
-    response.set('Access-Control-Allow-Origin', 'GET, ´POST')
+    response.set('Access-Control-Allow-Methods', 'GET, ´POST')
+    response.set('Access-Control-Allow-Headers', 'content-type')
+    response.status(204).end();
 })
 
 router.get('/', async (request, response) => {
