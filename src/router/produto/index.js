@@ -11,11 +11,11 @@ route.get('/', async (request, response) => {
 
 route.get('/:id', async (request, response) => {
     const { id } = request.params
-     const products = await _context.findOne({
-         where: { 
-             id: id
-         }
-     });
+    const products = await _context.findOne({
+        where: {
+            id: id
+        }
+    });
     response.status(200).json(products);
 })
 
@@ -26,8 +26,27 @@ route.post('/', async (request, response) => {
     return response.status(201).json(produto)
 
 })
+route.put('/:id/:diminuir', async (request, response) => {
+    const { id, diminuir } = request.params;
+
+    const product = await _context.findOne({
+        where: {
+            id: id
+        }
+    });
+    if(product.estoque === 0  ){
+        return response.status(400).json({
+            message: 'Não pode concluir a operação!!'
+        })
+    }
+    product.estoque = product.estoque - diminuir;
+    console.log(product.estoque)
+    product.save();
+    return response.status(200);
+})
+
 route.put('/:id', async (request, response) => {
-    const id =  request.params.id
+    const id = request.params.id
     const body = request.body;
     await _context.update(
         body,
