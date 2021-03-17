@@ -13,4 +13,13 @@ route.post('/', async (request, response) => {
     return response.status(201).json(produto)
 
 })
+route.delete('/:id', async (request, response) => {
+    const { id } = request.params
+    const result = await _context.destroy({
+        where: {
+            id: id
+        }
+    })
+    return response.status(204).end();
+})
 module.exports = route;
