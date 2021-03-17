@@ -36,6 +36,11 @@ class Repository {
 
 const repository = new Repository()
 
+// PERMITINDO QUE SEJÁ ACESSADO OS MÉTODOS ABAIXO
+router.options('/', (request, response) => {
+    response.set('Access-Control-Allow-Origin', 'GET, ´POST')
+})
+
 router.get('/', async (request, response) => {
     const result = await _context.findAll()
     return response.status(200).json({
