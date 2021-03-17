@@ -13,7 +13,7 @@ const column = {
     categoria: {
         type: Sequelize.ENUM('brinquedos', 'racao'),
         allowNull: false
-    },
+    }
 }
 const opt = {
     freezeTableName: true,

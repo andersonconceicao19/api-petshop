@@ -1,5 +1,12 @@
-const table = require('../router/fornecedor/fornecedor-model');
+const tables = [
+    require('../router/fornecedor/fornecedor-model'),
+    require('../router/produto/produto-model')
+]
 
-table.sync()
-            .then(()=> console.log('de boa'))
-            .catch(console.log)
+async function CreateTable() {
+    for (let i = 0; i < tables.length; i++) {
+        const table = tables[i];
+        await table.sync()
+    }
+}
+CreateTable();

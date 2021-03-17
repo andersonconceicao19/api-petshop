@@ -47,6 +47,13 @@ router.post('/', async (request, response, next) => {
     }
 })
 
+router.get('/:id/produtos', async (request, response) => {
+    const { id } = request.params
+    return response.status(200).json({
+        message: id
+    })
+})
+
 router.put('/:id', async (request, response) => {
     const id = request.params.id
     const body = request.body
